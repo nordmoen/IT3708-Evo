@@ -3,7 +3,7 @@
 from bitarray import bitarray
 from random import randrange
 
-class Genome:
+class Genome(object):
     def __init__(self, val, fitness_func, cross_rate, mute_rate, convert_func=None):
         assert val, 'The value of the genome can\'t be None'
         assert 0.0 < cross_rate < 1.0, 'The crossover rate must be within the range (0.0, 1.0)'
@@ -31,7 +31,9 @@ class Genome:
         my_val = self.get_value()
         other_val = other.get_value()
         my_val[point:end], other_val[point:end] = other_val[point:end], my_val[point:end]
-        return (my_val, other_val)
+        return (Genome(my_val, self.__fit_func, self.__cross_rate,
+            self.__mute_rate, self.__convert_func), Genome(other_val, self.__fit_func,
+                self.__cross_rate, self.__mute_rate, self.__convert_func))
 
     def mutate(self):
         if not self.__m_amount:

@@ -28,11 +28,14 @@ def roulette_select(amount, normalized):
     assert amount == len(selected), 'The amount selected does not equal the wanted amount'
     return selected
 
-class SelectionMechanism:
+class SelectionMechanism(object):
     def sample(self, amount, population):
         assert amount > 0, 'The amount to select is to little'
         assert len(population) > 1, 'The population must have at least two individuals'
         return self.__sample(amount, population)
+
+    def __sample(self, amount, population):
+        pass
 
 class FitnessProportionate(SelectionMechanism):
     def __sample(self, amount, population):

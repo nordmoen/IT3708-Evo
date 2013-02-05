@@ -2,8 +2,7 @@
 
 from math import sqrt
 
-class Population:
-
+class Population(object):
     def __init__(self, elements):
         assert elements, 'A population must contain some elements'
         self.__vals = elements

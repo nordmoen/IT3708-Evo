@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-class BitSequenceFitness:
+class BitSequenceFitness(object):
     def __call__(self, gene):
         assert gene, 'The given gene sequence is None'
         return self.__eval(gene)

@@ -1,12 +1,15 @@
 #!/usr/bin/python
 
-class FitnessLogger:
+class FitnessLogger(object):
     def __call__(self, i, population):
         assert population, 'Population can\'t be None'
         return self.__call(i, population)
 
     def finish(self):
         return self.__finish()
+
+    def __call(self, i, population):
+        pass
 
 class CmdLogger(FitnessLogger):
     def __call(self, i, population):
