@@ -46,6 +46,8 @@ def create_parser():
     mech_parser.add_argument('--min', type=float, help=('When using rank ' +
             'selection this must be used. It signifies the min value'),
             default=0.5)
+    mech_parser.add_argument('--elite', type=int, help='The number of the best individuals to chose',
+            default=1)
 
     fit_parser = parser.add_argument_group('Fitness', 'The fitness function')
     fit_parser.add_argument('fitness', help='The fitness function to use',
@@ -72,13 +74,13 @@ def get_protocol(args, select_alg):
 def get_selection(args):
     select = args.mech
     if select == 'proportionate':
-        return select_mech.FitnessProportionate()
+        return select_mech.FitnessProportionate(args.elite)
     elif select == 'sigma':
-        return select_mech.SigmaScaling()
+        return select_mech.SigmaScaling(args.elite)
     elif select == 'tournament':
-        return select_mech.TournamentSelection(args.k, args.e)
+        return select_mech.TournamentSelection(args.elite, args.k, args.e)
     elif select == 'rank':
-        return select_mech.RankSelection(args.min, args.max)
+        return select_mech.RankSelection(args.elite, args.min, args.max)
 
 def get_logger(args):
     log_type = args.log_type

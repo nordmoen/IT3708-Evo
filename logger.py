@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
 class FitnessLogger(object):
-    def __call__(self, i, population):
-        assert population, 'Population can\'t be None'
-        return self.sub_call(i, population)
+    def __call__(self, i, best, avg, stdev):
+        return self.sub_call(i, best, avg, stdev)
 
     def finish(self):
         return self.sub_finish()
@@ -12,14 +11,14 @@ class FitnessLogger(object):
         pass
 
 class CmdLogger(FitnessLogger):
-    def sub_call(self, i, population):
-        best, avg, stdev = population.get_stats()
+    def sub_call(self, i, best, avg, stdev):
         print '-'*30
         print 'Generation: {0:d}'.format(i)
-        print 'Best: {0:s}'.format(best)
-        print 'Average fitness: {0:f}, stdev:{1:f}'.format(avg, stdev)
+        print 'Best: {0:s}({1:.1f})'.format(best, best.fitness())
+        print 'Average fitness: {0:.2f}, stdev:{1:.2f}'.format(avg, stdev)
         print '-'*30
-    def __finish():
+
+    def sub_finish(self):
         pass
 
 class PlotLogger(FitnessLogger):
@@ -28,9 +27,8 @@ class PlotLogger(FitnessLogger):
         self.__log = []
         self.__filename = name
 
-    def sub_call(self, i, population):
-        best, avg, stdev = population.get_stats()
-        self.__log.append('{0:d}\t{1:f}\t{2:f}\n'.format(i, avg, stdev))
+    def sub_call(self, i, best, avg, stdev):
+        self.__log.append('{0:d}\t{1:f}\t{2:f}\t{3:f}\n'.format(i, avg, stdev, best.fitness()))
 
     def sub_finish(self):
         with open(self.__filename, 'w') as f:

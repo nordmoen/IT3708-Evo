@@ -14,6 +14,8 @@ class Genome(object):
         self.__mute_rate = mute_rate
         self.__convert_func = convert_func
         self.__len = len(self.__val)
+        self.__amount = None
+        self.__m_amount = None
 
     def fitness(self):
         return self.__fit_func(self.__val)
@@ -51,3 +53,6 @@ class Genome(object):
 
     def __str__(self):
         return "Genome representing: {}".format(self.__val)
+
+    def __len__(self):
+        return self.__len
