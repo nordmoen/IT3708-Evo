@@ -17,8 +17,8 @@ class Population(object):
         if not self.__best:
             self.__best = max(self.__vals, key=lambda x: x.fitness())
         if not self.__stdev:
-            self.__stdev = sqrt(reduce(lambda acc,x: acc + (x - self.__avg)**2, self.__vals, 0)/
-                    float(len(self.__vals)))
+            self.__stdev = sqrt(reduce(lambda acc,x: acc + (x.fitness() - self.__avg)**2,
+                self.__vals, 0) / float(len(self.__vals)))
         return (self.__best, self.__avg, self.__stdev)
 
     def get(self):

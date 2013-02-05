@@ -3,10 +3,13 @@
 class BitSequenceFitness(object):
     def __call__(self, gene):
         assert gene, 'The given gene sequence is None'
-        return self.__eval(gene)
+        return self.sub_eval(gene)
+
+    def sub_eval(self, gene):
+        pass
 
 class OneMaxFitness(BitSequenceFitness):
-    def __eval(self, gene):
+    def sub_eval(self, gene):
         return gene.count()
 
 class RandomBitSequenceFitness(BitSequenceFitness):
@@ -14,7 +17,7 @@ class RandomBitSequenceFitness(BitSequenceFitness):
         assert target, 'The target bit sequence is None'
         self.__target = target
 
-    def __eval(self, gene):
+    def sub_eval(self, gene):
         assert len(gene) == len(self.__target), ('The target sequence has a ' +
                 'different length than the given gene')
         count = 0

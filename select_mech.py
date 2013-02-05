@@ -32,18 +32,18 @@ class SelectionMechanism(object):
     def sample(self, amount, population):
         assert amount > 0, 'The amount to select is to little'
         assert len(population) > 1, 'The population must have at least two individuals'
-        return self.__sample(amount, population)
+        return self.sub_sample(amount, population)
 
-    def __sample(self, amount, population):
+    def sub_sample(self, amount, population):
         pass
 
 class FitnessProportionate(SelectionMechanism):
-    def __sample(self, amount, population):
+    def sub_sample(self, amount, population):
         gene_val = [(gene, gene.fitness()) for gene in population]
         return roulette_select(amount, normalized(gene_val))
 
 class SigmaScaling(SelectionMechanism):
-    def __sample(self, amount, population):
+    def sub_sample(self, amount, population):
         avg = (reduce(lambda acc,y: acc + y.fitness(), population, 0) /
                 float(len(population)))
         stdev = sqrt(reduce(lambda acc, x: acc + (x - avg)**2, population, 0)/
@@ -60,7 +60,7 @@ class TournamentSelection(SelectionMechanism):
         self.__k = k
         self.__e = e
 
-    def __sample(self, amount, population):
+    def sub_sample(self, amount, population):
         selected = []
         while len(selected) < amount:
             tournament = sample(population, self.__k)
@@ -78,7 +78,7 @@ class RankSelection(SelectionMechanism):
         self.__max = maxi
         self.__min = mini
 
-    def __sample(self, amount, population):
+    def sub_sample(self, amount, population):
         sort_pop = sorted(population, cmp=lambda x,y: cmp(x.fitness(), y.fitness()))
         size = len(sort_pop)
         scaled = []
