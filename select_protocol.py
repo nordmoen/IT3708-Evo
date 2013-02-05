@@ -5,9 +5,11 @@ from random import sample
 from population import Population
 
 class SelectionProtocol:
-    def __init__(self, select_alg):
+    def __init__(self, select_alg, num_parents=0.5):
         assert select_alg, 'The selection algorithm must be something'
+        assert 0.0 < num_parents, 'Must select some amount of parents'
         self.__select_alg = select_alg
+        self.__num = num_parents
 
     def select(self, population):
         assert population, 'The population must contain something'
@@ -18,7 +20,7 @@ class SelectionProtocol:
 
 class FullReplacement(SelectionProtocol):
     def __select(self, population):
-        selected_mates = self.select_alg.sample(len(population), population.get())
+        selected_mates = self.select_alg.sample(len(population)*self.__num, population.get())
         mates = [sample(selected_mates, 2) for i in range(len(population)/2)]
         next_gen = []
         for mom, dad in mates:
