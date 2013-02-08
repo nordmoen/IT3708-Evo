@@ -6,6 +6,7 @@ from random import seed, randint
 from evolution import evolution_loop
 from genome import Genome
 from population import Population
+from phenotypes import ConvertGenome
 import fitness
 import logger
 import select_mech
@@ -21,6 +22,8 @@ def create_parser():
             help='The rate of crossover, a number between (0.0, 0.5]')
     parser.add_argument('--mutation', type=float, default=0.15,
             help='The rate of mutation, a number between (0.0, 0.5]')
+    parser.add_argument('--stop_cond', type=int,
+            help='The condition telling the algorithm when to stop if that condition occurs')
 
     proto_parser = parser.add_argument_group('Protocol', 'The selection protocol to use')
     proto_parser.add_argument('protocol', help='Type of protocol to use',
@@ -53,6 +56,10 @@ def create_parser():
     fit_parser.add_argument('fitness', help='The fitness function to use',
             choices=['max_fitness', 'random_fitness'], default='max_fitness')
     fit_parser.add_argument('--target', help='The random target one want to try and match')
+
+    convert_parser = parser.add_argument_group('Convert', 'The conversion function')
+    convert_parser.add_argument('convert', help='The conversion function',
+            choices=['convert-genome'])
 
     log_parser = parser.add_argument_group('Logger', 'The logger function')
     log_parser.add_argument('log_type', help='The type of logger to use',
@@ -97,11 +104,15 @@ def get_fit(args):
     elif fit_func == 'random_fitness':
         return fitness.RandomBitSequenceFitness(Genome(args.target))
 
-def create_initial_population(args, fit):
+def get_convert(args, fit):
+    return ConvertGenome(fit)
+
+def create_initial_population(args, conv):
     pop = []
     for i in range(args.size):
-        pop.append(Genome([randint(0, 1) for i in range(args.bits)], fit, args.crossover, args.mutation))
-    return Population(pop)
+        pop.append(Genome([randint(0, 1) for i in range(args.bits)],
+            args.crossover, args.mutation, conv))
+    return Population(map(lambda x: x.convert(), pop))
 
 def main():
     parser = create_parser()
@@ -110,8 +121,9 @@ def main():
     select = get_selection(args)
     proto = get_protocol(args, select)
     fit = get_fit(args)
+    conv = get_convert(args, fit)
     log = get_logger(args)
-    init = create_initial_population(args, fit)
+    init = create_initial_population(args, conv)
     evolution_loop(init, proto, log, args.loops)
 
 if __name__ == '__main__':

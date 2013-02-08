@@ -23,7 +23,7 @@ def roulette_select(amount, elite, normalized):
     norm_sorted = sorted(normalized, key=lambda x: x[1])
     if elite > 0:
         for i in range(elite):
-            selected.append(norm_sorted[i][0])
+            selected.append(norm_sorted[-1-i][0])
 
     while len(selected) < amount:
         rand = random()
@@ -35,6 +35,9 @@ def roulette_select(amount, elite, normalized):
     return selected
 
 class SelectionMechanism(object):
+    def __init__(self, eliteism_count):
+        self.elite = eliteism_count
+
     def sample(self, amount, population):
         assert amount > 0, 'The amount to select is to little'
         assert len(population) > 1, 'The population must have at least two individuals'
@@ -45,22 +48,20 @@ class SelectionMechanism(object):
         pass
 
 class FitnessProportionate(SelectionMechanism):
-    def __init__(self, eliteism_count):
-        self.elite = eliteism_count
-
     def sub_sample(self, amount, population):
-        gene_val = [(gene, gene.fitness()) for gene in population]
+        gene_val = [(pheno, pheno.fitness()) for pheno in population]
         return roulette_select(amount, self.elite, normalized(gene_val))
 
 class SigmaScaling(SelectionMechanism):
     def sub_sample(self, amount, population):
         avg = (reduce(lambda acc,y: acc + y.fitness(), population, 0) /
                 float(len(population)))
-        stdev = sqrt(reduce(lambda acc, x: acc + (x - avg)**2, population, 0)/
+        stdev = sqrt(reduce(lambda acc, x: acc + (x.fitness() - avg)**2, population, 0)/
                 float(len(population)))
+        stdev = 0.5 if not stdev else stdev
         scaled = []
-        for gene in population:
-            scaled.append((gene, 1 + (gene.fitness() - avg)/(2*stdev)))
+        for pheno in population:
+            scaled.append((pheno, 1 + (pheno.fitness() - avg)/(2*stdev)))
         return roulette_select(amount, self.elite, normalized(scaled))
 
 class TournamentSelection(SelectionMechanism):
@@ -76,9 +77,9 @@ class TournamentSelection(SelectionMechanism):
         while len(selected) < amount:
             tournament = sample(population, self.__k)
             p = 1 - self.__e
-            for i, gene in enumerate(tournament):
+            for i, pheno in enumerate(tournament):
                 if random() < p*((1-p)**i):
-                    selected.append(gene)
+                    selected.append(pheno)
                     break
         return selected
 
@@ -94,6 +95,6 @@ class RankSelection(SelectionMechanism):
         sort_pop = sorted(population, cmp=lambda x,y: cmp(x.fitness(), y.fitness()))
         size = len(sort_pop)
         scaled = []
-        for i, gene in enumerate(sort_pop):
-            scaled.append((gene, self.__min + (self.__max - self.__min)*((i-1)/(size - 1))))
+        for i, pheno in enumerate(sort_pop):
+            scaled.append((pheno, self.__min + (self.__max - self.__min)*((i-1)/(size - 1))))
         return roulette_select(amount, self.elite, normalized(scaled))

@@ -29,18 +29,18 @@ class FullReplacement(SelectionProtocol):
         mates = [sample(selected_mates, 2) for i in range(len(population)/2 + 1)]
         next_gen = []
         for mom, dad in mates:
-            c1, c2 = mom.crossover(dad)
+            c1, c2 = mom.get_gene().crossover(dad.get_gene())
             next_gen.append(c1)
             next_gen.append(c2)
         while len(next_gen) > len(population):
             next_gen.pop()
         map(lambda x: x.mutate(), next_gen)
-        return Population(next_gen)
+        return Population(map(lambda x: x.convert(), next_gen))
 
 class OverProduction(SelectionProtocol):
-    def __select(self, population):
+    def sub_select(self, population):
         pass
 
 class GenerationalMixing(SelectionProtocol):
-    def __select(self, population):
+    def sub_select(self, population):
         pass

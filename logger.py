@@ -14,7 +14,7 @@ class CmdLogger(FitnessLogger):
     def sub_call(self, i, best, avg, stdev):
         print '-'*30
         print 'Generation: {0:d}'.format(i)
-        print 'Best: {0:s}({1:.1f})'.format(best, best.fitness())
+        print 'Best: {0:s}'.format(best)
         print 'Average fitness: {0:.2f}, stdev:{1:.2f}'.format(avg, stdev)
         print '-'*30
 
