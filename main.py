@@ -22,15 +22,17 @@ def create_parser():
             help='The rate of crossover, a number between (0.0, 0.5]')
     parser.add_argument('--mutation', type=float, default=0.15,
             help='The rate of mutation, a number between (0.0, 0.5]')
-    parser.add_argument('--stop_cond', type=int,
+    parser.add_argument('--stop_cond', type=float,
             help='The condition telling the algorithm when to stop if that condition occurs')
 
     proto_parser = parser.add_argument_group('Protocol', 'The selection protocol to use')
     proto_parser.add_argument('protocol', help='Type of protocol to use',
             choices=['full_generational', 'overproduction', 'mixing'],
             default='full_generational')
-    proto_parser.add_argument('--num_parents', type=int, help=('The percentage of' +
+    proto_parser.add_argument('--num_parents', type=float, help=('The percentage of' +
             ' parents select for the mating'), default=0.5)
+    proto_parser.add_argument('--num_children', type=int, help=('The percentage of' +
+        ' children created during mating'), default=0.5)
 
     mech_parser = parser.add_argument_group('Mechanism', 'The selection mechanism to use')
     mech_parser.add_argument('mech', help='The type of mechanism to use',
@@ -124,7 +126,7 @@ def main():
     conv = get_convert(args, fit)
     log = get_logger(args)
     init = create_initial_population(args, conv)
-    evolution_loop(init, proto, log, args.loops)
+    evolution_loop(init, proto, log, args.loops, args.stop_cond)
 
 if __name__ == '__main__':
     main()

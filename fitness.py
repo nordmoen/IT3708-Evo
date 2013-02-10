@@ -10,7 +10,7 @@ class BitSequenceFitness(object):
 
 class OneMaxFitness(BitSequenceFitness):
     def sub_eval(self, pheno):
-        return pheno.count()
+        return pheno.get_value().count()
 
 class RandomBitSequenceFitness(BitSequenceFitness):
     def __init__(self, target):
@@ -18,10 +18,10 @@ class RandomBitSequenceFitness(BitSequenceFitness):
         self.__target = target
 
     def sub_eval(self, pheno):
-        assert len(pheno.val()) == len(self.__target), ('The target sequence has a ' +
+        assert len(pheno) == len(self.__target), ('The target sequence has a ' +
                 'different length than the given gene')
         count = 0
-        bitArr = pheno.val()
+        bitArr = pheno.get_value()
         for i in range(len(bitArr)):
             if bitArr[i] != self.__target[i]:
                 count += 1

@@ -9,7 +9,7 @@ class Phenotype(object):
         return self.__gene
 
     def fitness(self):
-        return self.__fit(self.__gene.get_value())
+        return self.__fit(self.__gene)
 
     def __str__(self):
         return 'Phenotype({0:s}), fitness:{1:.1f}'.format(self.__gene, self.fitness())
