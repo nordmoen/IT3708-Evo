@@ -27,3 +27,12 @@ need to define its own constructor, but then all that is needed is to implement
 \lstinputlisting[language=Python, firstline=17, lastline=31,
 	label=code:random-bit-fitness, caption=An extension of the fitness class
 which support checking against a random target]{../fitness.py}
+
+The same is true for all of the other "internal" classes used, to crate a new
+phenotype all that is needed is to implement the base phenotype and implement or
+reuse the methods defined within it. The same is true for new genome
+implementations, the challenge here is new genetic operators. If there is a need
+for anything other than a reimplementation of crossover or mutation this might
+be a problem. If the methods can not be called either when crossover or mutation
+is called, there will need to be some changes to the other code, which of course
+is unfortunate.

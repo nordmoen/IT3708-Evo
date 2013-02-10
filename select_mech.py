@@ -22,6 +22,8 @@ def roulette_select(amount, elite, normalized):
     selected = []
     norm_sorted = sorted(normalized, key=lambda x: x[1])
     if elite > 0:
+        if elite > amount:
+            elite = amount
         for i in range(elite):
             selected.append(norm_sorted[-1-i][0])
 
@@ -31,7 +33,8 @@ def roulette_select(amount, elite, normalized):
             if rand < val:
                 selected.append(normalized[i][0])
                 break
-    assert amount == len(selected), 'The amount selected does not equal the wanted amount'
+    assert amount == len(selected), ('The amount selected does ' +
+            'not equal the wanted amount, was {0} expected {1}'.format(len(selected), amount))
     return selected
 
 class SelectionMechanism(object):

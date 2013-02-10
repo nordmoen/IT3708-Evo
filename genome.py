@@ -43,7 +43,7 @@ class Genome(object):
         return bitarray(self.__val)
 
     def __repr__(self):
-        return "Genome({!r},{},{!r},{!r},{})".format(self.__val, self.__fit_func,
+        return "Genome({!r},{!r},{!r},{})".format(self.__val,
                 self.__cross_rate, self.__mute_rate, self.__convert_func)
 
     def __str__(self):

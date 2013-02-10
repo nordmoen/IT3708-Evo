@@ -12,10 +12,10 @@ class Phenotype(object):
         return self.__fit(self.__gene)
 
     def __str__(self):
-        return 'Phenotype({0:s}), fitness:{1:.1f}'.format(self.__gene, self.fitness())
+        return 'Phenotype({0!s}), fitness:{1:.1f}'.format(self.__gene, self.fitness())
 
     def __repr__(self):
-        return 'Phenotype({0:r}, {1:r})'.format(self.__gene, self.__fit)
+        return 'Phenotype({0!r}, {1!r})'.format(self.__gene, self.__fit)
 
 class ConvertGenome(object):
     def __init__(self, fitness):
