@@ -1,0 +1,29 @@
+\section{Code Modularity}\label{sec:modularity}
+The core code in this project is very modular as I hope was somewhat clear in
+the previous section(\ref{sec:description}). To expand on that further I will be
+giving some examples here, but also try and explain the main drawbacks making
+this somewhat less modular.
+
+Since most of the code is designed around classes most of the job extending this
+is already done. For future implementations all that is needed is to create a
+subclass, implement the function appropriate for that superclass and that is
+mostly it.
+
+The main thing holding back, as I mentioned in section \ref{sec:architecture},
+is that the interface needs to be updated to accommodate new classes. This is
+mainly because Python does not support importing classes at runtime in a more
+nice manner than what is supported currently. This means that to include new
+classes one must import them in the main file and then extend the interface to
+support this. This is quite cumbersome, but the benefits of a command-line
+interface is better than the alternatives, at least for me.
+
+In the listing \ref{code:random-bit-fitness} we can see how the modularity comes
+in to play. Since all the other code in the projects expects that a fitness
+function can just be called, all this new code has to do is to extend the main
+fitness class. Since this new fitness class is dependant upon a target value it
+need to define its own constructor, but then all that is needed is to implement
+"sub\_eval".
+
+\lstinputlisting[language=Python, firstline=17, lastline=31,
+	label=code:random-bit-fitness, caption=An extension of the fitness class
+which support checking against a random target]{../fitness.py}

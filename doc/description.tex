@@ -1,0 +1,92 @@
+\section{Description}\label{sec:description}
+My code in this project is designed around a couple of core classes which make
+out the main backbone. These classes are meant to be extended for further use
+and as such can not be used by them self. The main work is done in the classes
+\textit{select\_mech.py} and \textit{select\_protocol.py}. These two classes deal with
+selection mechanisms and selection protocols respectively. The main evolutionary
+loop is done in \textit{evolution.py}, but this code is quite standard and very short.
+The class \textit{fitness.py} deals with fitness and contains both the main class to be
+extended and some classes which I needed to solve the \textit{One-Max problem}.
+Both \textit{genome.py} and \textit{phenotypes.py} deals with the low level
+representations of genome and phenotypes. For simplicity I have decided that a
+phenotype class will contain the genome which created it. The next class of some
+importance is \textit{population.py} which contains a number of phenotypes and
+some methods for getting statistics from the population. The last file of any
+major importance is the \textit{main.py} file which contains the starter motor
+for running all of the classes above. Since I have chosen to have a command-line
+interface for my code the main file must be changed in order to add new classes.
+This is because Python is not really that happy about importing files at
+runtime, and the code is somewhat static in that regard. New configurations must
+also be added in the main file which is somewhat unfortunate, but the upside is
+that the code can be very easily run from the command-line with different
+configurations which make it somewhat easy to automate.
+
+\subsection{Selection Mechanisms}\label{sec:selection mechanisms}
+Since selection mechanisms are a core part of this project I will here describe
+most of the core code which would needed to be extended in order to add new
+code.
+
+\lstinputlisting[language=Python, firstline=37,
+lastline=48, label=code:select-mech, caption=Main class which selection
+mechanisms should inherit from]{../select_mech.py}
+
+If the new selection mechanism does not need any variables it self, it can
+contain as little as a new definition of \textit{sub\_sample}. This method
+receives an amount variable and an array of phenotypes. The amount variable
+signifies how many individuals this selection mechanism should retrieve. The
+population is just an array of individuals which this sub\_sample method should
+select from.
+
+This class also contains a few handy functions, but they are of little
+importance to this report.
+
+\subsection{Selection Protocol}\label{sec:selection protocol}
+The selection protocol is the second important class in this project, it is
+tasked with creating a new population, by using a selection mechanism to select
+parents and children.
+
+\lstinputlisting[language=Python, firstline=8,
+lastline=25, label=code:select-protocol, caption=Main class which selection
+protocols should inherit from]{../select_protocol.py}
+
+In listing \ref{code:select-protocol} we can see that this shares much of the
+same architecture design as in the previous section. This class expects a
+selection mechanism class, a float representing the percentage of parents to
+select for mating and the percentage of children to be created during mating.
+The last two variables only influences variation and so on, as all selection
+protocols implemented so far returns the same size population as it is given as
+input\footnote{This is done so that population size is the same all through out
+a run}.
+
+\lstinputlisting[language=Python, firstline=27,
+lastline=40, label=code:select-protocol-2, caption=An example implementation of
+a selection protocol]{../select_protocol.py}
+
+In the code snippet \ref{code:select-protocol-2} we can see how a selection
+protocol is implemented in this project. First a set of parents are selected
+using the selection mechanism chosen as input. Then we create random couples for
+mating\footnote{Some other project that I have talked to have used the selection
+	mechanism again when creating couples, I have chosen to keep it this way
+	to maintain some variation. In some of the selection mechanisms this can
+	be controlled, but I think this should not hold this project back that
+much. If needed this can easily be changed.}.
+
+\subsection{Architecture}\label{sec:architecture}
+The rest of the code follows very much in the same path as the code shown above.
+By using inheritance we can get a lot of different implementation, which can
+still be used by code not specially design for the new implementations. As can
+be seen in the code above I have included a some amount of assertions to try and
+control what the subclasses do\footnote{By using some optimization flags for
+	Python these will be ignored. This can be handy when wanting to run the
+code faster}. Most of the files in this project contains one class which is
+designed to be extended, because of the length requirement on this report
+I have not included all those classes.
+
+The only code not following this "standard" is the main class which only job is
+to parse the command-line input and start the evolutionary loop. Because
+selection mechanisms, protocols and all the variables associated with them can
+be configured on the command-line this is sort of the weakest link in the
+project. Since new implementations of selection mechanisms must be included here
+the main file must also be changed. But this is not something which affects the
+rest of the code, if I had chosen another user interface style this could be
+avoided.

@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+from bitarray import bitarray
+
 class BitSequenceFitness(object):
     def __call__(self, pheno):
         assert pheno, 'The given phoneme sequence is None'
@@ -15,6 +17,7 @@ class OneMaxFitness(BitSequenceFitness):
 class RandomBitSequenceFitness(BitSequenceFitness):
     def __init__(self, target):
         assert target, 'The target bit sequence is None'
+        assert isinstance(target, bitarray), 'The target needs to be a bitarray'
         self.__target = target
 
     def sub_eval(self, pheno):
