@@ -1,6 +1,7 @@
 \documentclass[titlepage, a4paper]{article}
 \usepackage[colorlinks=true, linkcolor=black]{hyperref}
 \usepackage{graphicx}
+\usepackage{epstopdf}
 \usepackage[procnames]{listings}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -75,13 +76,10 @@
 \pagenumbering{arabic}
 \maketitle{}
 
-\abstract{This report details my implementation of evolutionary algorithms(EA) and
-	their performance for the first assignment in IT3708. The assignement
-	was to design some necessary code for EA and use that code to solve some
-interesting problems.}
-
 \input{description.tex}
 
 \input{reusability.tex}
+
+\input{analysis.tex}
 
 \end{document}

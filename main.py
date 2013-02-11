@@ -2,6 +2,7 @@
 
 from argparse import ArgumentParser
 from random import seed, randint
+from bitarray import bitarray
 
 from evolution import evolution_loop
 from genome import Genome
@@ -104,7 +105,7 @@ def get_fit(args):
     if fit_func == 'max_fitness':
         return fitness.OneMaxFitness()
     elif fit_func == 'random_fitness':
-        return fitness.RandomBitSequenceFitness(Genome(args.target))
+        return fitness.RandomBitSequenceFitness(bitarray(args.target))
 
 def get_convert(args, fit):
     return ConvertGenome(fit)

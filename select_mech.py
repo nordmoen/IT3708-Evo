@@ -78,7 +78,8 @@ class TournamentSelection(SelectionMechanism):
     def sub_sample(self, amount, population):
         selected = []
         while len(selected) < amount:
-            tournament = sample(population, self.__k)
+            tournament = sorted(sample(population, self.__k), key=lambda x:
+                    x.fitness(), reverse=True)
             p = 1 - self.__e
             for i, pheno in enumerate(tournament):
                 if random() < p*((1-p)**i):
