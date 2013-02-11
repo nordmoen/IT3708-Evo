@@ -12,12 +12,12 @@ class Population(object):
 
     def get_stats(self):
         if not self.__avg:
-            self.__avg = (reduce(lambda acc,y: acc + y.fitness(), self.__vals, 0) /
+            self.__avg = (reduce(lambda acc,y: acc + y.fitness(self), self.__vals, 0) /
                     float(len(self.__vals)))
         if not self.__best:
-            self.__best = max(self.__vals, key=lambda x: x.fitness())
+            self.__best = max(self.__vals, key=lambda x: x.fitness(self))
         if not self.__stdev:
-            self.__stdev = sqrt(reduce(lambda acc,x: acc + (x.fitness() - self.__avg)**2,
+            self.__stdev = sqrt(reduce(lambda acc,x: acc + (x.fitness(self) - self.__avg)**2,
                 self.__vals, 0) / float(len(self.__vals)))
         return (self.__best, self.__avg, self.__stdev)
 

@@ -8,14 +8,20 @@ class Phenotype(object):
     def get_gene(self):
         return self.__gene
 
-    def fitness(self):
-        return self.__fit(self.__gene)
+    def fitness(self, pop):
+        return self.__fit(self.__gene, pop)
 
     def __str__(self):
-        return 'Phenotype({0!s}), fitness:{1:.1f}'.format(self.__gene, self.fitness())
+        return 'Phenotype({0!s}), fitness:{1:.1f}'.format(self.__gene, 0)
 
     def __repr__(self):
         return 'Phenotype({0!r}, {1!r})'.format(self.__gene, self.__fit)
+
+    def __eq__(self, other):
+        try:
+            return self.__gene == other.get_gene()
+        except:
+            return False
 
 class ConvertGenome(object):
     def __init__(self, fitness):

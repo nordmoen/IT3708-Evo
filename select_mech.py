@@ -52,19 +52,19 @@ class SelectionMechanism(object):
 
 class FitnessProportionate(SelectionMechanism):
     def sub_sample(self, amount, population):
-        gene_val = [(pheno, pheno.fitness()) for pheno in population]
+        gene_val = [(pheno, pheno.fitness(population)) for pheno in population]
         return roulette_select(amount, self.elite, normalized(gene_val))
 
 class SigmaScaling(SelectionMechanism):
     def sub_sample(self, amount, population):
-        avg = (reduce(lambda acc,y: acc + y.fitness(), population, 0) /
+        avg = (reduce(lambda acc,y: acc + y.fitness(population), population, 0) /
                 float(len(population)))
-        stdev = sqrt(reduce(lambda acc, x: acc + (x.fitness() - avg)**2, population, 0)/
+        stdev = sqrt(reduce(lambda acc, x: acc + (x.fitness(population) - avg)**2, population, 0)/
                 float(len(population)))
         stdev = 0.5 if not stdev else stdev
         scaled = []
         for pheno in population:
-            scaled.append((pheno, 1 + (pheno.fitness() - avg)/(2*stdev)))
+            scaled.append((pheno, 1 + (pheno.fitness(population) - avg)/(2*stdev)))
         return roulette_select(amount, self.elite, normalized(scaled))
 
 class TournamentSelection(SelectionMechanism):
@@ -79,7 +79,7 @@ class TournamentSelection(SelectionMechanism):
         selected = []
         while len(selected) < amount:
             tournament = sorted(sample(population, self.__k), key=lambda x:
-                    x.fitness(), reverse=True)
+                    x.fitness(population), reverse=True)
             p = 1 - self.__e
             for i, pheno in enumerate(tournament):
                 if random() < p*((1-p)**i):
@@ -96,7 +96,8 @@ class RankSelection(SelectionMechanism):
         self.__min = mini
 
     def sub_sample(self, amount, population):
-        sort_pop = sorted(population, cmp=lambda x,y: cmp(x.fitness(), y.fitness()))
+        sort_pop = sorted(population, cmp=lambda x,y: cmp(x.fitness(population),
+            y.fitness(population)))
         size = len(sort_pop)
         scaled = []
         for i, pheno in enumerate(sort_pop):

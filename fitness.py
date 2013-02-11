@@ -3,15 +3,16 @@
 from bitarray import bitarray
 
 class BitSequenceFitness(object):
-    def __call__(self, pheno):
+    def __call__(self, pheno, population):
         assert pheno, 'The given phoneme sequence is None'
-        return self.sub_eval(pheno)
+        assert population, 'Population is None'
+        return self.sub_eval(pheno, population)
 
-    def sub_eval(self, pheno):
+    def sub_eval(self, pheno, population):
         pass
 
 class OneMaxFitness(BitSequenceFitness):
-    def sub_eval(self, pheno):
+    def sub_eval(self, pheno, population):
         return pheno.get_value().count()
 
 class RandomBitSequenceFitness(BitSequenceFitness):
@@ -20,7 +21,7 @@ class RandomBitSequenceFitness(BitSequenceFitness):
         assert isinstance(target, bitarray), 'The target needs to be a bitarray'
         self.__target = target
 
-    def sub_eval(self, pheno):
+    def sub_eval(self, pheno, population):
         assert len(pheno) == len(self.__target), ('The target sequence has a ' +
                 'different length than the given gene')
         count = 0

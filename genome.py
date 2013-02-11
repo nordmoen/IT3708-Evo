@@ -52,3 +52,8 @@ class Genome(object):
     def __len__(self):
         return self.__len
 
+    def __eq__(self, other):
+        try:
+            return self.__val == other.get_value()
+        except:
+            return False

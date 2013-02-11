@@ -1,17 +1,17 @@
 #!/usr/bin/python
 
 class FitnessLogger(object):
-    def __call__(self, i, best, avg, stdev):
-        return self.sub_call(i, best, avg, stdev)
+    def __call__(self, i, best, avg, stdev, pop):
+        return self.sub_call(i, best, avg, stdev, pop)
 
     def finish(self):
         return self.sub_finish()
 
-    def sub_call(self, i, population):
+    def sub_call(self, i, best, avg, stdev, population):
         pass
 
 class CmdLogger(FitnessLogger):
-    def sub_call(self, i, best, avg, stdev):
+    def sub_call(self, i, best, avg, stdev, pop):
         print '-'*30
         print 'Generation: {0:d}'.format(i)
         print 'Best: {0:s}'.format(best)
@@ -27,8 +27,9 @@ class PlotLogger(FitnessLogger):
         self.__log = []
         self.__filename = name
 
-    def sub_call(self, i, best, avg, stdev):
-        self.__log.append('{0:d}\t{1:f}\t{2:f}\t{3:f}\n'.format(i, avg, stdev, best.fitness()))
+    def sub_call(self, i, best, avg, stdev, pop):
+        self.__log.append('{0:d}\t{1:f}\t{2:f}\t{3:f}\n'.format(i, avg, stdev,
+            best.fitness(pop)))
 
     def sub_finish(self):
         with open(self.__filename, 'w') as f:
