@@ -12,7 +12,7 @@ class Phenotype(object):
         return self.__fit(self.__gene, pop)
 
     def __str__(self):
-        return 'Phenotype({0!s}), fitness:{1:.1f}'.format(self.__gene, 0)
+        return 'Phenotype({0!s}), fitness:{1:.1f}'.format(self.__gene, self.fitness(None))
 
     def __repr__(self):
         return 'Phenotype({0!r}, {1!r})'.format(self.__gene, self.__fit)

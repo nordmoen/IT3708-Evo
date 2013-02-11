@@ -83,9 +83,14 @@ results. For this task I decided to try and tweak them some, but there is room f
 For this task I ran a new script which generated 40bit long random strings and
 ran four different tests, again with 20 different runs. In figure
 \ref{fig:random target} we can see the results. If we compare this with the
-results obtained in figure \ref{fig:selection} we can see that there really is
-not that much difference between them. Even tough it is a bit quicker in figure
-\ref{fig:selection} that can easily be attributed to random and as such I
+results obtained in figure \ref{fig:target one max} we can see that there really is
+not that much difference between them\footnote{Both of these runs had the exact
+	same premises which should mean that very little is different between
+	them. One problem is that this is the average over four different random
+	bit strings which might skew the results in favour of the One-Max
+	solution, but seeing as they are so close I decided that it is worth it
+to get two such concise plots}. Even tough it is a bit quicker in figure
+\ref{fig:target one max} that can easily be attributed to random and as such I
 conclude that trying to evolve a random target is no different from an all one
 target. This makes sense since in many ways an all one target is no different
 from a randomly chosen different bit string. As an example say we have a random
@@ -94,8 +99,15 @@ population which contains "111" converting between those two are no different fr
 one max problem going the other way, and as such is no different.
 
 \begin{figure}[h!]
-	\includegraphics{../graphs/fitness_target_average.eps}
-	\caption{Average fitness of the best individual with four different
-	randomly generated target bit strings}
+	\includegraphics{../graphs/fitness_target_random.eps}
+	\caption{Averaged values of four different randomly selected targets and
+	with average, best and standard deviation.}
 	\label{fig:random target}
+\end{figure}
+
+\begin{figure}[h!]
+	\includegraphics{../graphs/fitness_target_one.eps}
+	\caption{Averaged values for the One-Max problem 
+	with average, best and standard deviation.}
+	\label{fig:target one max}
 \end{figure}

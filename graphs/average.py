@@ -19,6 +19,31 @@ def average(files):
         sum_avg[key] = sum_avg[key] / val
     return sum_avg
 
+def full_average(files):
+    average_dat = {}
+    sum_avg = {}
+    for file in files:
+        with open(file, 'r') as f:
+            for line in f:
+                data = line.split('\t')
+                x_val = int(data[0])
+                if x_val not in average_dat:
+                    average_dat[x_val] = 0.0
+                    sum_avg[x_val] = [0.0, 0.0, 0.0]
+                average_dat[x_val] += 1.0
+                sum_avg[x_val][0] += float(data[1])
+                sum_avg[x_val][1] += float(data[2])
+                sum_avg[x_val][2] += float(data[3])
+    for key, val in average_dat.items():
+        sum_avg[key] = (sum_avg[key][0] / val, sum_avg[key][1] / val,
+                sum_avg[key][2] / val)
+    return sum_avg
+
+def write_full_average(filename, data):
+    with open(filename, 'w') as f:
+        for key, val in data.items():
+            f.write('{}\t{}\t{}\t{}\n'.format(key, val[0], val[1], val[2]))
+
 def write_average(filename, data):
     with open(filename, 'w') as f:
         for key, val in data.items():
@@ -37,8 +62,8 @@ def average_selection(select, files):
     write_average('task4-select_{}-average.dat'.format(select), data)
 
 def average_target(target, files):
-    data = average(files)
-    write_average('task5-target_{}-average.dat'.format(target), data)
+    data = full_average(files)
+    write_full_average('task5-target_{}-average.dat'.format(target), data)
 
 def main():
     command = sys.argv[1]
