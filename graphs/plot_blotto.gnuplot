@@ -27,12 +27,12 @@ set style line 2 lt rgb "#00A000" lw 2 pt 6
 set style line 3 lt rgb "#5060D0" lw 2 pt 2
 set style line 4 lt rgb "#F25900" lw 2 pt 9
 
-set title "Fitness growth for One-Max"
+set title "Colonel Blotto"
 set xlabel "Number of generations"
 set ylabel "Fitness"
 set key bottom right
-set output "fitness_target_one.pdf"
+set output "fitness_blotto.pdf"
 
-plot "data/task5-target_one-max-average.dat" using 1:($2+$3):($2-$3) title "Standard deviation" with filledcurves, \
-"data/task5-target_one-max-average.dat" using 1:4 title "One-Max best" with lines, \
-"data/task5-target_one-max-average.dat" using 1:2 title "One-Max average" with lines
+plot "data/plotto.dat" using 1:($2+$3):($2-$3) title "Standard deviation" with filledcurves, \
+"data/plotto.dat" using 1:4 title "Best" with lines, \
+"data/plotto.dat" using 1:2 title "Average" with lines

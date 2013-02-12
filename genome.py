@@ -40,7 +40,7 @@ class Genome(object):
                 self.__val[i] = not self.__val[i]
 
     def get_value(self):
-        return bitarray(self.__val)
+        return self.__val.copy()
 
     def __repr__(self):
         return "Genome({!r},{!r},{!r},{})".format(self.__val,

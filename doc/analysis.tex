@@ -15,7 +15,7 @@ mating} are used for mating no matter what. I then use another script
 would be impossible to interpret anything useful from the plots}.
 
 \begin{figure}[h!]
-	\includegraphics{../graphs/fitness_population_average.eps}
+	\includegraphics{../graphs/fitness_population_average.pdf}
 	\caption{Average fitness growth for the best individual for different populations}
 	\label{fig:population-average}
 \end{figure}
@@ -39,14 +39,14 @@ different crossovers and mutation rates. I used a population size of 15 as said
 above and elitism of 5 to keep it consistent with the test ran above.
 
 \begin{figure}[h!]
-	\includegraphics{../graphs/fitness_crossover_mute_003_average.eps}
+	\includegraphics{../graphs/fitness_crossover_mute_003_average.pdf}
 	\caption{Average fitness for the best individual with a mutation rate of 0.03 and all the
 	different crossover rates tested for}
 	\label{fig:cross 0.03}
 \end{figure}
 
 \begin{figure}[h!]
-	\includegraphics{../graphs/fitness_crossover_mute_0015_average.eps}
+	\includegraphics{../graphs/fitness_crossover_mute_0015_average.pdf}
 	\caption{Average fitness of the best individual with a mutation rate of 0.015 and all the
 	different crossover rates tested for}
 	\label{fig:cross 0.015}
@@ -67,7 +67,7 @@ Selection} and \textit{Tournament Selection}. The result can be seen below in
 figure \ref{fig:selection}.
 
 \begin{figure}[h!]
-	\includegraphics{../graphs/fitness_selection_average.eps}
+	\includegraphics{../graphs/fitness_selection_average.pdf}
 	\caption{Average fitness of the best individuals with different
 	selection mechanisms}
 	\label{fig:selection}
@@ -90,7 +90,7 @@ not that much difference between them\footnote{Both of these runs had the exact
 	bit strings which might skew the results in favour of the One-Max
 	solution, but seeing as they are so close I decided that it is worth it
 to get two such concise plots}. Even tough it is a bit quicker in figure
-\ref{fig:target one max} that can easily be attributed to random and as such I
+\ref{fig:target random} that can easily be attributed to random and as such I
 conclude that trying to evolve a random target is no different from an all one
 target. This makes sense since in many ways an all one target is no different
 from a randomly chosen different bit string. As an example say we have a random
@@ -99,14 +99,14 @@ population which contains "111" converting between those two are no different fr
 one max problem going the other way, and as such is no different.
 
 \begin{figure}[h!]
-	\includegraphics{../graphs/fitness_target_random.eps}
+	\includegraphics{../graphs/fitness_target_random.pdf}
 	\caption{Averaged values of four different randomly selected targets and
 	with average, best and standard deviation.}
 	\label{fig:random target}
 \end{figure}
 
 \begin{figure}[h!]
-	\includegraphics{../graphs/fitness_target_one.eps}
+	\includegraphics{../graphs/fitness_target_one.pdf}
 	\caption{Averaged values for the One-Max problem 
 	with average, best and standard deviation.}
 	\label{fig:target one max}

@@ -29,7 +29,8 @@ class PlotLogger(FitnessLogger):
 
     def sub_call(self, i, best, avg, stdev, pop):
         self.__log.append('{0:d}\t{1:f}\t{2:f}\t{3:f}\n'.format(i, avg, stdev,
-            best.fitness(pop)))
+            best.fitness(pop.get())))
+        print i, str(best)
 
     def sub_finish(self):
         with open(self.__filename, 'w') as f:
