@@ -26,16 +26,14 @@ Since selection mechanisms are a core part of this project I will here describe
 most of the core code which would needed to be extended in order to add new
 code.
 
-\lstinputlisting[language=Python, firstline=40,
-lastline=51, label=code:select-mech, caption=Main class which selection
-mechanisms should inherit from]{../select_mech.py}
-
 If the new selection mechanism does not need any variables it self, it can
 contain as little as a new definition of \textit{sub\_sample}. This method
 receives an amount variable and an array of phenotypes. The amount variable
 signifies how many individuals this selection mechanism should retrieve. The
 population is just an array of individuals which this sub\_sample method should
-select from.
+select from. I have implemented \textit{Fitness-Proportinate}, \textit{Sigma
+scaling}, \textit{Rank selection} and \textit{Tournament selection}. These
+classes just follow the simple description in our provided material.
 
 This class also contains a few handy functions, but they are of little
 importance to this report.
@@ -45,31 +43,22 @@ The selection protocol is the second important class in this project, it is
 tasked with creating a new population, by using a selection mechanism to select
 parents and children.
 
-\lstinputlisting[language=Python, firstline=8,
-lastline=25, label=code:select-protocol, caption=Main class which selection
-protocols should inherit from]{../select_protocol.py}
-
-In listing \ref{code:select-protocol} we can see that this shares much of the
+In select\_protocol.py we can see that this shares much of the
 same architecture design as in the previous section. This class expects a
-selection mechanism class, a float representing the percentage of parents to
-select for mating and the percentage of children to be created during mating.
+selection mechanism class, a float representing the percentage of children 
+to be created during mating and the degree of elitism.
 The last two variables only influences variation and so on, as all selection
 protocols implemented so far returns the same size population as it is given as
 input\footnote{This is done so that population size is the same all through out
 a run}.
 
-\lstinputlisting[language=Python, firstline=27,
-lastline=40, label=code:select-protocol-2, caption=An example implementation of
-a selection protocol]{../select_protocol.py}
-
-In the code snippet \ref{code:select-protocol-2} we can see how a selection
+In the class \textit{FullReplace} we can see how a selection
 protocol is implemented in this project. First a set of parents are selected
-using the selection mechanism chosen as input. Then we create random couples for
-mating\footnote{Some other project that I have talked to have used the selection
-	mechanism again when creating couples, I have chosen to keep it this way
-	to maintain some variation. In some of the selection mechanisms this can
-	be controlled, but I think this should not hold this project back that
-much. If needed this can easily be changed.}.
+using the selection mechanism chosen. These two parents then get to mate to
+create two new children. After we have created enough children we have to prune
+the new population since we are creating a even number of children and an odd
+might be needed. After this we check if elitism is to be used which then adds
+the best from the previous population into the newly created one.
 
 \subsection{Architecture}\label{sec:architecture}
 The rest of the code follows very much in the same path as the code shown above.

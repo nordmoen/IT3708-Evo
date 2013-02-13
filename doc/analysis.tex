@@ -1,12 +1,12 @@
 \section{Performance Analysis}\label{sec:performance analysis}
 To test the performance of my code I designed two scripts which automated my
-analysis. In the file \textit{test\_population.sh} there is code for running 20
-runs of my code with population sizes from 10 to 20. The code uses different
+analysis. In the file \textit{test\_population.sh} there is code for running 10
+runs of my code with population sizes from 10 to 100. The code uses different
 random variables so we can get a proper average. The other settings was
-"crossover=0.5", "mutation=0.025", "elite=5" which means that it has a one point
-crossover, approximately one mutation per gene and the 5 best\footnote{If this is
-possible, for some population sizes this means that only the best are used for
-mating} are used for mating no matter what. I then use another script
+"cross\_rate=1.0", "cover\_rate=0.5", "mutation=0.025", "elite=3" which means that it has a one point
+crossover, approximately one mutation per gene and the 3 best\footnote{If this is
+possible, for some population sizes this means that only the best are used
+further} are used for the next population no matter what. I then use another script
 \textit{average.py} to take the average over all which is then plotted using
 \textit{plot\_population\_average.gnuplot}. In figure
 \ref{fig:population-average} you can see the result of all the runs\footnote{In
@@ -23,9 +23,10 @@ would be impossible to interpret anything useful from the plots}.
 As can be seen from the plot there is no clear winner, several reaches the max
 fitness within 100 generations and some don't. This is also dependant on the
 random seed selected. For this reason I will continue forward with a population
-size of 15, because I'm quite sure that it should always make it. On previous
-runs I have also seen it do quite a bit better so I'm quite confident that 15 is
-a good size to chose.
+size of 40, because I'm quite sure that it should always make it. Although this
+is very hard to say as it seem that with the current configuration it is all
+rather random if it makes it or not, but as one can see 40 makes it. This means
+that 40 has done well over 10 runs with a new random seed each time.
 
 When testing for crossover and mutation rate the task was a bit more difficult
 to plot concise. For this reason I made a another script,
@@ -33,30 +34,35 @@ to plot concise. For this reason I made a another script,
 crossover rates. The problem is plotting this. I haven't found a pretty way of
 showing it, so below I include two out of seven plots\footnote{There should be
 no problem recreating the results and looking at them}, one containing the best
-results and one showing that it did not improve much. For the plots I have run
-20 times with different seeds for each of the 20 times, but the same seed for
-different crossovers and mutation rates. I used a population size of 15 as said
-above and elitism of 5 to keep it consistent with the test ran above.
+results and one other which show another good configuration. For the plots I have run
+10 times with different seeds for each of the 10 times, but the same seed for
+different crossovers and mutation rates. I used a population size of 40 as said
+above and elitism of 3 to keep it consistent with the test ran above.
 
 \begin{figure}[h!]
-	\includegraphics{../graphs/fitness_crossover_mute_003_average.pdf}
-	\caption{Average fitness for the best individual with a mutation rate of 0.03 and all the
+	\includegraphics{../graphs/fitness_crossover_mute_001_average.pdf}
+	\caption{Average fitness for the best individual with a mutation rate of 0.01 and all the
 	different crossover rates tested for}
-	\label{fig:cross 0.03}
+	\label{fig:cross 0.01}
 \end{figure}
 
 \begin{figure}[h!]
 	\includegraphics{../graphs/fitness_crossover_mute_0015_average.pdf}
-	\caption{Average fitness of the best individual with a mutation rate of 0.015 and all the
-	different crossover rates tested for}
+	\caption{Average fitness of the best individual with a mutation rate of
+		0.015 and all the different crossover rates tested for}
 	\label{fig:cross 0.015}
 \end{figure}
 
-In figure \ref{fig:cross 0.015} we can see that with a crossover rate of 0.5 and
-a mutation rate of 0.015 we can solve the \textit{One-Max problem} in around 50
+In figure \ref{fig:cross 0.01} we can see that with a crossover rate of 1.0 and
+a mutation rate of 0.01 we can solve the \textit{One-Max problem} in around 57
 generations\footnote{This was the lowest of all the seven runs, but random seed
 	will affect this, so this might not be exactly the same for other
-runs, but I think that average of 20 runs should yield good results}
+runs, but I think that average of 10 runs should yield good results}. To
+extrapolate from this is quite hard, but it seems that a large crossover rate
+and a low mutation rate is better than the other way around. This seem to
+suggest that inheritance is very important, and a low chance of mutation with
+few major changes to the gene is good. This would correlate well with what we
+have learned in class about evolutionary algorithms.
 
 \subsection{Selection Mechanism}\label{sec:selection mechanism}
 When testing for the best selection mechanism I again started by making a new
@@ -64,7 +70,10 @@ script for automated testing, \textit{test\_selection.sh}. This files run
 through all of the different selection mechanisms that I have implemented,
 namely \textit{Fitness Proportionate}, \textit{Sigma Scaling}, \textit{Rank
 Selection} and \textit{Tournament Selection}. The result can be seen below in
-figure \ref{fig:selection}.
+figure \ref{fig:selection}. In ran with the parameters found in the previous
+section and with tournament size on 10 and the e factor on 0.05 which where both
+chosen after some testing\footnote{This was not the most extensive testing so
+Tournament selection might improve more}.
 
 \begin{figure}[h!]
 	\includegraphics{../graphs/fitness_selection_average.pdf}
@@ -73,24 +82,23 @@ figure \ref{fig:selection}.
 	\label{fig:selection}
 \end{figure}
 
-From this we can see that both Sigma scaling and Rank selection do a very good
-job and
-improve quite a lot on Fitness Proportionate. Tournament selection does lag a
-bit behind, but this also have some parameters that would need tuning for better
-results. For this task I decided to try and tweak them some, but there is room for improvement.
+In the figure we can see that Tournament selection does a remarkably good job
+compared to Fitness Proportionate, Sigma scaling also does a good job and rank
+selection does improve compared to Fitness Proportionate.
 
 \subsection{Random Target}\label{sec:random target}
 For this task I ran a new script which generated 40bit long random strings and
-ran four different tests, again with 20 different runs. In figure
+ran four different tests, again with 10 different runs. In figure
 \ref{fig:random target} we can see the results. If we compare this with the
 results obtained in figure \ref{fig:target one max} we can see that there really is
 not that much difference between them\footnote{Both of these runs had the exact
 	same premises which should mean that very little is different between
 	them. One problem is that this is the average over four different random
-	bit strings which might skew the results in favour of the One-Max
-	solution, but seeing as they are so close I decided that it is worth it
-to get two such concise plots}. Even tough it is a bit quicker in figure
-\ref{fig:target random} that can easily be attributed to random and as such I
+	bit strings. Another problem is the inherent randomness which comes with
+the testing. I ran a couple of times and was quite ready to call One-Max easier,
+but than I got a couple of results like the ones below and it again switched for
+me.}. Even tough it is a bit quicker in figure
+\ref{fig:random target} that can easily be attributed to random and as such I
 conclude that trying to evolve a random target is no different from an all one
 target. This makes sense since in many ways an all one target is no different
 from a randomly chosen different bit string. As an example say we have a random

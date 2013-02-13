@@ -34,13 +34,12 @@ set key bottom right
 set output "fitness_population_average.pdf"
 
 plot "data/task3-population_10-average.dat" using 1:2 title "Population size 10" with lines ls 1, \
-"data/task3-population_11-average.dat" using 1:2 title "Population size 11" with lines ls 2, \
-"data/task3-population_12-average.dat" using 1:2 title "Population size 12" with lines ls 3, \
-"data/task3-population_13-average.dat" using 1:2 title "Population size 13" with lines ls 4, \
-"data/task3-population_14-average.dat" using 1:2 title "Population size 14" with lines, \
-"data/task3-population_15-average.dat" using 1:2 title "Population size 15" with lines, \
-"data/task3-population_16-average.dat" using 1:2 title "Population size 16" with lines, \
-"data/task3-population_17-average.dat" using 1:2 title "Population size 17" with lines, \
-"data/task3-population_18-average.dat" using 1:2 title "Population size 18" with lines, \
-"data/task3-population_19-average.dat" using 1:2 title "Population size 19" with lines, \
-"data/task3-population_20-average.dat" using 1:2 title "Population size 20" with lines
+"data/task3-population_20-average.dat" using 1:2 title "Population size 20" with lines ls 2, \
+"data/task3-population_30-average.dat" using 1:2 title "Population size 30" with lines ls 3, \
+"data/task3-population_40-average.dat" using 1:2 title "Population size 40" with lines ls 4, \
+"data/task3-population_50-average.dat" using 1:2 title "Population size 50" with lines, \
+"data/task3-population_60-average.dat" using 1:2 title "Population size 60" with lines, \
+"data/task3-population_70-average.dat" using 1:2 title "Population size 70" with lines, \
+"data/task3-population_80-average.dat" using 1:2 title "Population size 80" with lines, \
+"data/task3-population_90-average.dat" using 1:2 title "Population size 90" with lines, \
+"data/task3-population_100-average.dat" using 1:2 title "Population size 100" with lines

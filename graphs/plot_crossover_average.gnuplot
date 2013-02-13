@@ -33,10 +33,10 @@ set ylabel "Fitness"
 set key bottom right
 set output "fitness_crossover_mute_!MUTE!_average.pdf"
 
-plot "data/task3-cross_0.025-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.025" with lines, \
-"data/task3-cross_0.05-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.05" with lines, \
+plot "data/task3-cross_0.0-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.0" with lines, \
 "data/task3-cross_0.1-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.1" with lines, \
-"data/task3-cross_0.2-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.2" with lines, \
 "data/task3-cross_0.3-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.3" with lines, \
-"data/task3-cross_0.4-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.4" with lines, \
-"data/task3-cross_0.5-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.5" with lines
+"data/task3-cross_0.5-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.5" with lines, \
+"data/task3-cross_0.6-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.6" with lines, \
+"data/task3-cross_0.8-mute_!MUTE!-average.dat" using 1:2 title "Crossover 0.8" with lines, \
+"data/task3-cross_1.0-mute_!MUTE!-average.dat" using 1:2 title "Crossover 1.0" with lines

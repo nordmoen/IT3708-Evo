@@ -4,6 +4,7 @@ import math
 
 import phenotypes
 import fitness
+import logger
 
 class ConvertBlotto(phenotypes.ConvertGenome):
     def __init__(self, fitness, b):
@@ -17,8 +18,13 @@ class ConvertBlotto(phenotypes.ConvertGenome):
             strategies.append(int(bits[i*5:i*5 + 5], 2) / 3)
         norm = float(sum(strategies))
         strats = strategies[:]
-        for i in range(len(strategies)):
-            strategies[i] /= norm
+        if norm > 0:
+            for i in range(len(strategies)):
+                strategies[i] /= norm
+        else:
+            for i in range(len(strategies)):
+                strategies[i] = 1.0 / len(strats)
+
         return BlottoPheno(gene, self.fitness, strategies, strats)
 
 class BlottoPheno(phenotypes.Phenotype):
@@ -32,7 +38,7 @@ class BlottoPheno(phenotypes.Phenotype):
                 self.__strat, self.__orig_strat)
 
     def __str__(self):
-        return 'Blotto: {0!s}'.format(self.__orig_strat)
+        return 'Blotto: {0!s}\t{1!s}'.format(self.__strat, self.gene.get_value())
 
     def get_strategy(self):
         return self.__strat[:]
@@ -86,3 +92,23 @@ class BlottoFitness(fitness.BitSequenceFitness):
                     self.__fits[self.__pop[i]] += 1
                     self.__fits[self.__pop[j]] += 1
         return self.__fits[pheno]
+
+class BlottoLogger(logger.PlotLogger):
+    def __init__(self, name):
+        super(BlottoLogger, self).__init__(name)
+        self.__ent_log = []
+        self.__win_log = []
+
+    def sub_call(self, i, best, avg, stdev, pop):
+        super(BlottoLogger, self).sub_call(i, best, avg, stdev, pop)
+        entropy = reduce(lambda acc, x: acc + x.get_entropy(), pop.get(),
+                0) / len(pop)
+        self.__ent_log.append('{0:d}\t{1:f}\n'.format(i, entropy))
+        self.__win_log.append('{0!s}:{1!s}\n'.format(i, best.get_strategy()))
+
+    def sub_finish(self):
+        super(BlottoLogger, self).sub_finish()
+        with open('{}_entropy.dat'.format(self.filename[:-4]), 'w') as f:
+            f.writelines(self.__ent_log)
+        with open('{}_winners.dat'.format(self.filename[:-4]), 'w') as f:
+            f.writelines(self.__win_log)

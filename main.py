@@ -20,8 +20,10 @@ def create_parser():
     parser.add_argument('bits', type=int, default=20, help='The number of bits in the vectors')
     parser.add_argument('size', type=int, default=20, help='The size of each population')
     parser.add_argument('--seed', type=int, default=42, help='Seed for the random number generator')
-    parser.add_argument('--crossover', type=float, default=0.5,
+    parser.add_argument('--cross_rate', type=float, default=0.5,
             help='The rate of crossover, a number between (0.0, 0.5]')
+    parser.add_argument('--cover_rate', type=float, default=0.5,
+            help='The amount to crossover, 0.5 is then a one point crossover')
     parser.add_argument('--mutation', type=float, default=0.015,
             help='The rate of mutation, a number between (0.0, 0.5]')
     parser.add_argument('--stop_cond', type=float,
@@ -67,7 +69,7 @@ def create_parser():
 
     log_parser = parser.add_argument_group('Logger', 'The logger function')
     log_parser.add_argument('log_type', help='The type of logger to use',
-            choices=['cmd', 'plot'], default='cmd')
+            choices=['cmd', 'plot', 'plotto'], default='cmd')
     log_parser.add_argument('--filename', help=('When using a plot logger' +
             ' this must be used.'))
     blott_parser = parser.add_argument_group('Blotto', 'Special configuration' +
@@ -82,22 +84,23 @@ def get_protocol(args, select_alg):
     protocol = args.protocol
     parents = args.num_parents
     if protocol == 'full_generational':
-        return select_protocol.FullReplacement(select_alg, parents)
+        return select_protocol.FullReplacement(select_alg, parents, args.elite)
     elif protocol == 'overproduction':
-        return select_protocol.OverProduction(select_alg, parents)
+        return select_protocol.OverProduction(select_alg, parents, args.elite)
     elif protocol == 'mixing':
-        return select_protocol.GenerationalMixing(select_alg, parents)
+        return select_protocol.GenerationalMixing(select_alg, parents,
+                args.elite)
 
 def get_selection(args):
     select = args.mech
     if select == 'proportionate':
-        return select_mech.FitnessProportionate(args.elite)
+        return select_mech.FitnessProportionate()
     elif select == 'sigma':
-        return select_mech.SigmaScaling(args.elite)
+        return select_mech.SigmaScaling()
     elif select == 'tournament':
-        return select_mech.TournamentSelection(args.elite, args.k, args.e)
+        return select_mech.TournamentSelection(args.k, args.e)
     elif select == 'rank':
-        return select_mech.RankSelection(args.elite, args.min, args.max)
+        return select_mech.RankSelection(args.min, args.max)
 
 def get_logger(args):
     log_type = args.log_type
@@ -105,6 +108,8 @@ def get_logger(args):
         return logger.CmdLogger()
     elif log_type == 'plot':
         return logger.PlotLogger(args.filename)
+    elif log_type == 'plotto':
+        return blotto.BlottoLogger(args.filename)
 
 def get_fit(args):
     '''Everyone should'''
@@ -129,7 +134,7 @@ def create_initial_population(args, conv):
         frac = 5
     for i in range(args.size):
         pop.append(Genome([randint(0, 1) for i in range(args.bits*frac)],
-            args.crossover, args.mutation, conv))
+            args.cover_rate, args.cross_rate, args.mutation, conv))
     return Population(map(lambda x: x.convert(), pop))
 
 def main():

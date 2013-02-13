@@ -6,7 +6,7 @@ def evolution_loop(pop, protocol, logger, max_loop=100, cond=None):
         print 'Progress: {0:.0%}'.format(i/float(max_loop))
         best, avg, stdev = population.get_stats()
         logger(i, best, avg, stdev, population)
-        if cond and best.fitness(population) == cond:
+        if cond and best.fitness(population.get()) == cond:
             print 'Progress: {0:.0%}'.format(1)
             break
         population = protocol.select(population)

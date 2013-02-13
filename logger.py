@@ -25,13 +25,12 @@ class PlotLogger(FitnessLogger):
     def __init__(self, name):
         assert name, 'Can\'t create a file without a name'
         self.__log = []
-        self.__filename = name
+        self.filename = name
 
     def sub_call(self, i, best, avg, stdev, pop):
         self.__log.append('{0:d}\t{1:f}\t{2:f}\t{3:f}\n'.format(i, avg, stdev,
             best.fitness(pop.get())))
-        print i, str(best)
 
     def sub_finish(self):
-        with open(self.__filename, 'w') as f:
+        with open(self.filename, 'w') as f:
             f.writelines(self.__log)

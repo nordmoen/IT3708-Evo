@@ -11,23 +11,23 @@ target2=$(randomBitString)
 target3=$(randomBitString)
 target4=$(randomBitString)
 
-for run in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+for run in 1 2 3 4 5 6 7 8 9 10
 do
 	rand=$RANDOM
 	for target in $target1 $target2 $target3 $target4
 	do
 		filename="task5-target_$target-rand_$rand.dat"
-		python ../main.py 100 40 15 full_generational\
-		sigma random_fitness convert-genome plot\
-		--crossover=0.5 --mutation=0.015 --seed=$rand\
-		--elite=5 --filename=$filename --stop_cond=40\
-		--target=$target
+		python ../main.py 100 40 40 full_generational\
+		tournament random_fitness convert-genome plot\
+		--cross_rate=1.0 --cover_rate=0.5 --mutation=0.01 --seed=$rand\
+		--elite=3 --filename=$filename --stop_cond=40\
+		--target=$target --k=10 --e=0.05
 	done
 	filename="task5-target-none-rand_$rand.dat"
-	python ../main.py 100 40 15 full_generational\
-	sigma max_fitness convert-genome plot\
-	--crossover=0.5 --mutation=0.015 --seed=$rand\
-	--elite=5 --filename=$filename --stop_cond=40
+	python ../main.py 100 40 40 full_generational\
+	tournament max_fitness convert-genome plot\
+	--cross_rate=1.0 --cover_rate=0.5 --mutation=0.01 --seed=$rand\
+	--elite=3 --filename=$filename --stop_cond=40 --k=10 --e=0.05
 done
 
 for target in $target1 $target2 $target3 $target4

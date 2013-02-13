@@ -24,7 +24,7 @@ fitness class. Since this new fitness class is dependant upon a target value it
 need to define its own constructor, but then all that is needed is to implement
 "sub\_eval".
 
-\lstinputlisting[language=Python, firstline=18, lastline=32,
+\lstinputlisting[language=Python, firstline=17, lastline=32,
 	label=code:random-bit-fitness, caption=An extension of the fitness class
 which support checking against a random target]{../fitness.py}
 
@@ -36,3 +36,10 @@ for anything other than a reimplementation of crossover or mutation this might
 be a problem. If the methods can not be called either when crossover or mutation
 is called, there will need to be some changes to the other code, which of course
 is unfortunate.
+
+For a good example of the resuability we can take a look at the file
+\textit{blotto.py} which is the extra code I had to add for part B of the
+project. There really isn't that much new code added to solve a completely
+different problem. Other than that I had to extend the main class, but this is
+not an effect of the overall modularity of the code and more the lack of
+modularity in the user interface.
